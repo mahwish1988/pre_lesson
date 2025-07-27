@@ -93,20 +93,21 @@ _Made with ❤️ for every child's first step._
 st.title("🎒 Preprimary Syllabus Assistant")
 st.markdown("Hi there! 👋 I'm here to help you explore the lesson plan. Ask me anything about phonics, monthly topics, or classroom activities listed in the plan below ⬇️")
 
-# Local PDF Path
-PDF_FILE_PATH = r"C:\Users\Computer House\Downloads\yearly year lesson plan by mahwish.pdf"
+# PDF file path (must exist in the same directory as lesson.py)
+PDF_FILE_PATH = "kindergarten_lesson_plan.pdf.pdf"
 
-# Load PDF once
+# Load PDF content once
 if 'pdf_content' not in st.session_state:
     st.session_state['pdf_content'] = extract_text_from_pdf(PDF_FILE_PATH)
 
+# Handle error reading PDF
 if st.session_state['pdf_content'].startswith("Error"):
     st.error(st.session_state['pdf_content'])
 
-# User Query Input
+# Input from user
 user_query = st.text_input("💬 What would you like to know?")
 
-# Generate Answer
+# Generate and display answer
 if st.button("🔍 Get Answer") and st.session_state['pdf_content']:
     if user_query.strip() == "":
         st.warning("Oops! Please type your question before clicking.")
@@ -115,11 +116,9 @@ if st.button("🔍 Get Answer") and st.session_state['pdf_content']:
         st.subheader("📘 Here's what I found:")
         st.text(answer)
 
-        # Friendly Feedback Section
+        # Feedback section
         st.markdown("### 😊 Was this helpful for you?")
         helpful = st.radio("Please choose an option:", ("👍 Yes, it was super helpful!", "👎 Hmm, not really."))
-
-        # Suggestion box always visible for both answers
         suggestion = st.text_area("💡 Got any ideas or suggestions? We’d love to hear how we can make this even better for you!")
 
         if st.button("✅ Send Feedback"):
